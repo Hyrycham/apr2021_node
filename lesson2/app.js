@@ -1,11 +1,11 @@
 const express = require('express');
 const expressHbs = require('express-handlebars');
-const fs = require("fs");
 const path = require("path");
 
 const app = express();
-const {PORT,usersPath} = require('./config/varisbles');
-const writeUser=require('./helper/writeFile')
+const calc = require('./helper/calc')
+const {PORT,calcPath,loginPath,registrationPath} = require('./config/varisbles');
+const writeUser = require('./helper/writeFile');
 let users = require('./db/users');
 
 app.use(express.json());
@@ -24,47 +24,44 @@ app.get('/', (req, res) => {
     res.render('startPage');
 });
 
-app.get('/login', (req, res) => {
+app.get(calcPath, (req, res) => {
+    res.render('calc')
+});
+
+app.get(loginPath, (req, res) => {
     res.render('login');
 });
 
-app.get('/registration', (req, res) => {
+app.get(registrationPath, (req, res) => {
     res.render('registration');
 })
 
-app.get(usersPath, (req, res) => {
-    res.render('users', {users})
+app.post(calcPath, (req, res) => {
+    const result = calc(+req.body.n1, +req.body.n2, req.body.operation);
+    res.render('result', {result});
 });
 
-app.get(`${usersPath}/:user_id`, (req, res) => {
-    const {user_id} = (req.params);
-    const currentUser = users.find(user => +user.id === +user_id);
-
-    if (!currentUser) {
-        res.status(404).end('user not found');
-        return;
-    }
-
-    res.json(currentUser);
-});
-
-app.post('/login', (req, res) => {
+app.post(loginPath, (req, res) => {
     const {name, password} = req.body;
     const userValid = users.find(user => {
         return ((user.name === name) && (user.password === password))
     });
 
-    if (userValid) { res.redirect(usersPath)}
-  else  {res.render('badLog', {name})}
-    });
+    if (userValid) {
+        res.redirect(calcPath)
+    } else {
+        res.render('badLog', {name})
+    }
 
-app.post('/registration', (req, res) => {
+});
+
+app.post(registrationPath, (req, res) => {
     const newUser = req.body;
     newUser.id = users.length + 1;
     users.push(newUser);
-    writeUser(path.join(__dirname, 'db', 'users.js'),users)
+    writeUser(path.join(__dirname, 'db', 'users.js'), users)
 
-    res.redirect(`/login`);
+    res.redirect(loginPath);
 })
 
 app.listen(PORT, () => {

@@ -1,4 +1,6 @@
 module.exports={
     PORT:5000,
-    usersPath:'/users'
-}
+    calcPath:'/calc',
+    loginPath:'/login',
+    registrationPath:'/registration',
+   }

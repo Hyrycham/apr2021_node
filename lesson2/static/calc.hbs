@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<form action="/calc" method="post" style="height: 100px;background-color: darkorange">
+    <label><input type="number" name="n1" placeholder="0" style="font-size:30px"></label>
+    <label>
+        <select name="operation" style="font-size: 30px; font-weight: bold">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*" selected>*</option>
+            <option value="/">/</option>
+        </select>
+    </label>
+    <label><input type="number" name="n2" placeholder="0" style="font-size: 30px"></label>
+    <input type="submit" style=" background-color: grey;font-size: 30px" value="=">
+
+</form>
+
+
+</body>
+</html>
