@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 const writeUser= (pathToArr,arr)=>{
-    fs.writeFile(pathToArr,`const users = ${JSON.stringify(arr)}; module.exports=users;`,
+    fs.writeFile(pathToArr,JSON.stringify(arr),
         err => {
             console.log(err)
         });

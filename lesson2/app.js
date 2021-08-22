@@ -6,7 +6,7 @@ const app = express();
 const calc = require('./helper/calc')
 const {PORT,calcPath,loginPath,registrationPath} = require('./config/varisbles');
 const writeUser = require('./helper/writeFile');
-let users = require('./db/users');
+let users = require('./db/users.json');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -59,7 +59,7 @@ app.post(registrationPath, (req, res) => {
     const newUser = req.body;
     newUser.id = users.length + 1;
     users.push(newUser);
-    writeUser(path.join(__dirname, 'db', 'users.js'), users)
+    writeUser(path.join(__dirname, 'db', 'users.json'), users)
 
     res.redirect(loginPath);
 })
